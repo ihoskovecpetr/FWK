@@ -14,7 +14,7 @@ import NewVenue from './Components/new-input-window';
 export default class App extends Component {
     constructor(props) {
     super(props);
-        this.state = {
+    this.state = {
       venues: [],
       venuesDB: [],
       displVenues: [],
@@ -22,8 +22,9 @@ export default class App extends Component {
       workingLat: '',
       workingLng: '',
       workingZoom: '',
-      workingVenue: '',
+      workingVenue: '', // Venue on which is clicked right now, othervise empty
       unConfirmedArray: [],
+      navExpand: false,
       }
   }
 
@@ -152,9 +153,9 @@ if (this.state.workingLat == '' ) {
   });
 
 
-    var infowindow = new window.google.maps.InfoWindow()
+  var infowindow = new window.google.maps.InfoWindow()
 
-      var markers = this.state.displVenues.map(myVenue =>{
+  var markers = this.state.displVenues.map(myVenue =>{
 
     var contentString = `<div id="infowind">
                             <div id="cup-coffee">
@@ -164,28 +165,27 @@ if (this.state.workingLat == '' ) {
                             </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>
                           </div>`
 
+          switch(myVenue.price) {
+              case 0.8:
+                  var url = "https://img.icons8.com/material-outlined/26/000000/marker.png"
+                  break;
+              case 1:
+                   var url = "https://img.icons8.com/material-two-tone/26/000000/marker.png"
+                  break;
+              case 2:
+                   var url = "https://img.icons8.com/material-rounded/26/000000/marker.png"
+                   break;
+              }
 
-switch(myVenue.price) {
-    case 0.8:
-        var url = "https://img.icons8.com/material-outlined/26/000000/marker.png"
-        break;
-    case 1:
-         var url = "https://img.icons8.com/material-two-tone/26/000000/marker.png"
-        break;
-    case 2:
-         var url = "https://img.icons8.com/material-rounded/26/000000/marker.png"
-         break;
-}
 
+        var image = {
+        url: url,
+        size: new window.google.maps.Size(24, 24),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(12, 24)
+      };
 
-    var image = {
-    url: url,
-    size: new window.google.maps.Size(24, 24),
-    origin: new window.google.maps.Point(0, 0),
-    anchor: new window.google.maps.Point(12, 24)
-  };
-
-    var marker = new window.google.maps.Marker({
+  var marker = new window.google.maps.Marker({
       position: {lat: myVenue.lat,
                  lng: myVenue.lng},
       map: map,
@@ -193,13 +193,13 @@ switch(myVenue.price) {
       title: myVenue.name,
     })
 
+  //print only Markers with status confirmed
+      if (myVenue.confirmed == false) {
+        var infowindowAdmin = new window.google.maps.InfoWindow()
 
-if (myVenue.confirmed == false) {
-  var infowindowAdmin = new window.google.maps.InfoWindow()
-
-    infowindowAdmin.setContent(contentString)
-    infowindowAdmin.open(map, marker);
-} else{
+          infowindowAdmin.setContent(contentString)
+          infowindowAdmin.open(map, marker);
+      } else{
 
    // Listener on the Location marker
     var here = this
@@ -215,7 +215,6 @@ if (myVenue.confirmed == false) {
       infowindow.setContent(contentString)
       infowindow.open(map, marker);
       here.setState({workingVenue: myVenue}, function(){document.getElementById("detailWindow").classList.remove("hideIt");})
-
        }
 
     })
@@ -231,10 +230,16 @@ var GeoMarker = new window.GeolocationMarker(map);
 
 var previousMarker;
 var here = this;
-  map.addListener('click', function(event) {
+
+
+  map.addListener('click', function(event) { 
+
+    if (here.state.navExpand) {
+      var prevStaveExp = here.state.navExpand
+      here.setState({navExpand: !prevStaveExp})
+    } else{
          
-      if (here.state.workingVenue) {
-          console.log("byl otevren detail jedny Venue");
+      if (here.state.workingVenue) {   //chech if there is opened detail of some Venue
          document.getElementById("detailWindow").classList.add("hideIt");
          here.setState({workingVenue: ''})
       } else{
@@ -264,7 +269,8 @@ var here = this;
     })
       infowindow.open(map, previousMarker);
           }
-        }
+        }         
+      }
   });
 
 
@@ -417,12 +423,7 @@ Update(_id){
             }).then(this.componentDidMount()).then(this.showAdmin())
   }
 
-  round2decimals(x){
-        var y = (Math.round(x*1000))/1000
-      return(
-        <span>{y}</span>
-        )
-  }
+
 //
     onSubmit(){
     document.getElementById("newInput").classList.add("hideIt");
@@ -485,6 +486,12 @@ showAdmin(){
 
 }
 
+setNavExpanded(){
+  console.log("chci tagglovat NAvBar")
+  var pastStateExp = this.state.navExpand 
+  this.setState({navExpand: !pastStateExp})
+}
+
 
   render() {
 const navbar = {backgroundColor: 'transparent', color: 'white'};
@@ -495,7 +502,9 @@ this.poloha()
     return (
       <div className="Head">
 
-<Navbar staticTop inverse collapseOnSelect id="NavBar" className="hideIt"  >
+<Navbar fixedTop inverse collapseOnSelect 
+      id="NavBar" className="hideIt" 
+      expanded={this.state.navExpand} onToggle={this.setNavExpanded.bind(this)}  >
     <Navbar.Toggle />
   <Navbar.Collapse>
     <Nav pullLeft>
@@ -512,7 +521,8 @@ this.poloha()
 
     <Nav pullRight>
       <NavItem>
-      <Button bsStyle="info" id="Nav-button" className="admin" onClick={this.showAdmin.bind(this)}>Admin</Button>
+      <Button bsStyle="info" id="Nav-button" className="admin" onClick={this.showAdmin.bind(this)}>Develop</Button>
+      <Button bsStyle="success" >Back</Button>
       </NavItem>
     </Nav>
   </Navbar.Collapse>
