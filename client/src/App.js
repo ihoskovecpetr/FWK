@@ -24,7 +24,9 @@ export default class App extends Component {
       workingZoom: '',
       workingVenue: '', // Venue on which is clicked right now, othervise empty
       unConfirmedArray: [],
+      adminOpen: '',
       navExpand: false,
+
       }
   }
 
@@ -221,6 +223,7 @@ if (this.state.workingLat == '' ) {
 
     map.addListener('click', function(event) {
         infowindow.close();
+        
     })
   }
 })
@@ -234,43 +237,43 @@ var here = this;
 
   map.addListener('click', function(event) { 
 
-    if (here.state.navExpand) {
-      var prevStaveExp = here.state.navExpand
-      here.setState({navExpand: !prevStaveExp})
-    } else{
-         
-      if (here.state.workingVenue) {   //chech if there is opened detail of some Venue
-         document.getElementById("detailWindow").classList.add("hideIt");
-         here.setState({workingVenue: ''})
-      } else{
+    console.log("is it in here????????????????????")
 
-        if (previousMarker){
-              previousMarker.setMap(null);
-              previousMarker = undefined;
-              document.getElementById("newInput").classList.add("hideIt");
+    if (here.state.adminOpen) {
+      document.getElementById("adminWindow").classList.add("hideIt"); // close the admin window on click on map
+      here.setState({adminOpen: false})
+    } else {
+
+      if (here.state.navExpand) { //close the expanded NavBar on click on map
+        var prevStaveExp = here.state.navExpand
+        here.setState({navExpand: !prevStaveExp})
+      } else{
+           
+        if (here.state.workingVenue) {   //close the detail window on click on map
+           document.getElementById("detailWindow").classList.add("hideIt");
+           here.setState({workingVenue: ''})
         } else{
+
+          if (previousMarker){  //close the last new location marker and window on click on map
+                previousMarker.setMap(null);
+                previousMarker = undefined;
+                document.getElementById("newInput").classList.add("hideIt");
+          } else{
       
       document.getElementById("newInput").classList.remove("hideIt");
       
       here.setState({workingLocation: [event.latLng.lat(), event.latLng.lng()]})
-      here.setState({workingLocation: [event.latLng.lat(), event.latLng.lng()]})
 
-
-      var contentString = `Add information about this place.` 
-      previousMarker = new window.google.maps.Marker({
-      position: event.latLng,
-      map: map,
-      label: '+',
-      title: "myVenue.name",
-    })
-      infowindow.setContent(contentString)
-      previousMarker.addListener('click', function() {
-      infowindow.open(map, previousMarker);
-    })
-      infowindow.open(map, previousMarker);
+          previousMarker = new window.google.maps.Marker({
+          position: event.latLng,
+          map: map,
+          label: '+',
+          title: "myVenue.name",
+        })
           }
         }         
-      }
+      }      
+    }
   });
 
 
@@ -285,8 +288,8 @@ var here = this;
 // render MAP for a first time while search for a places from Foursquare API
 loadAgain(event){
   event.preventDefault();
-  this.getVenues(document.getElementById('searchPlace').value)
-  this.showAway()
+  this.getVenues(document.getElementById('searchPlace').value) // calling foursquare API
+  this.showAway() // just show all points from DB with 0.8$ price
 }
 
 getVenues(near){
@@ -358,9 +361,6 @@ initMap(){
 }
 
 handleShow(){
-
-  console.log("SHOW STATE")
-  console.log(this.state)
   
  /*   var map = new window.google.maps.Map(document.getElementById('map'), {
     center: {lat: this.state.venues[0].venue.location.lat , lng: this.state.venues[0].venue.location.lng},
@@ -474,22 +474,22 @@ showAdmin(){
         document.getElementById("adminWindow").classList.remove("hideIt");
         document.getElementById("detailWindow").classList.add("hideIt");
         document.getElementById("newInput").classList.add("hideIt");
-
+        this.setState({navExpand: false})
+         this.setState({adminOpen: true})
         //onShowADMIN CHANGES sorted Venues to be displayed and set to render them then
-
-        console.log("this.state.displVenues from showAdmin fce")
-        console.log(this.state.displVenues)
-
         this.setState({displVenues: this.state.unConfirmedArray }, function(){
           this.renderAwaySorted()  
         })
-
 }
 
 setNavExpanded(){
   console.log("chci tagglovat NAvBar")
   var pastStateExp = this.state.navExpand 
   this.setState({navExpand: !pastStateExp})
+  document.getElementById("adminWindow").classList.add("hideIt");
+  document.getElementById("detailWindow").classList.add("hideIt");
+  document.getElementById("newInput").classList.add("hideIt");
+
 }
 
 

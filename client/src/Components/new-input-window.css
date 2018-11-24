@@ -1,0 +1,12 @@
+#newInput{
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  padding-top: 0;
+}
+
+.hideInput{
+  display: none;
+}

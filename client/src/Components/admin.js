@@ -12,10 +12,6 @@ export default class Admin extends Component {
       }
   }
 
-hnadleClose(){
-              document.getElementById("adminWindow").classList.add("hideIt");
-}
-
   componentDidMount(){
 
 }
@@ -65,7 +61,6 @@ printRows(){
             </Row>
            {this.printRows()}
         </Grid>
-         <Button bsStyle="danger" id="btnCloseAdmin" onClick={this.hnadleClose.bind(this)} >Close</Button>
        </div>
     );
   }

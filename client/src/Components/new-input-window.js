@@ -20,17 +20,13 @@ handleOnSubmit(e){
   this.props.onSubmit();
 }
 
-handleClose(e){
-    e.preventDefault();
-  this.props.onClose();
-}
+// handleClose(e){   e.preventDefault(); this.props.onClose();}
 
 
 
   render() {
     return (
 <form id="newInput" className="hideIt" >
-      <div id="new-place-header"><p>Insert details for a new place</p></div>
           <Grid id="grid">
             <Row className="show-grid">
 
@@ -60,7 +56,6 @@ handleClose(e){
           </Row>
           <Row>
                  <Button bsStyle="info" className="button" type="submit" onClick={this.handleOnSubmit.bind(this)} >Submit</Button>
-               <Button bsStyle="danger" className="button" type="close" onClick={this.handleClose.bind(this)} >Close</Button>
           </Row>
         </Grid>
 </form>

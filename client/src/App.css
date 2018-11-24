@@ -225,28 +225,7 @@ animation: Coffee-Initial 1.0s;
   display: none;
 }
 
-#newInput{
-  position: fixed;
-  bottom: 0px;
-  left: 0;
-  width: 100%;
-  padding: 10px;
-}
-
-.hideInput{
-  display: none;
-}
-
-#new-place-header p{
-  font-style: italic;
-  font-weight: bold;
-  font-size: 26px;
-  margin: 0;
-  padding: 0;
-}
-
 #grid{
-  padding: 10px;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
