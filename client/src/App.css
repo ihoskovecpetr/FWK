@@ -1,15 +1,16 @@
 .Head{
-border-radius: 5px;
+  border-radius: 5px;
+  height: 100vh;
 }
 
 .Head p {
- color: white;
+ color: black;
 }
 
 #NavBar{
   margin-bottom: 0px;
-  background-color: rgba(111, 78, 55, 0.7) !important;
-  border: none;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border-bottom: solid 1px black;
 }
 
 #Nav-button{
@@ -18,16 +19,19 @@ border-radius: 5px;
   font-size: large;
   border: none;
   padding: 0 !important;
-  height: 90px;
+  height: 50px;
   width: 90px;
-  border-radius: 45px;
-  background-color: transparent;
+  border-radius: 20px;
+  background-color: transparent !important;
   outline: none;
+  margin-right: 10px;
+  color: black;
 }
+
 
 .admin{
     width: 180px !important;
-    border: solid 2px !important;
+
 }
 
 ul li a{
@@ -59,37 +63,67 @@ ul li a{
 
   #Nav-button{
     width: 100%;
-    border-radius: 20px;
+    border-radius: 10px;
+  }
+
+.admin{
+    width: 100% !important;
+    border: solid 1px !important;
+    border-radius: 10px;
+}
+
+
+}
+
+@media (max-width: 992px){
+
+  .jumbo-cup{
+    margin-top: 0 !important;
   }
 }
 
 
+
 #jumbo{
-  height: 100vh;
-  color: white;
-  background-color: rgba(111, 78, 55, 0.5);
+  position: fixed;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
   position: relative;
   z-index: 5;
+  padding-top: 0;
+}
+
+.jumbotron{
+  margin-bottom: 0;
 }
 
 #col{
     text-align: center;
 }
 
+#jumbo-cup2{
+animation-delay: 0.5s
+}
+#jumbo-cup3{
+animation-delay: 1s
+}
 
-#jumbo-cup{
+
+.jumbo-cup{
   display: inline-block;
   border-radius: 100px;
   width: 200px;
   height: 200px;
   text-align: center;
+  margin-top: 40%;
 }
 
-#jumbo-cup p{
+
+
+.jumbo-cup p{
   padding-top: 20px;
   font-style: italic;
   font-weight: bold;
-
 }
 
 #cup-image{
@@ -98,27 +132,17 @@ margin: 10px;
 margin-top: 0;
 }
 
-#jumbo-cup:hover {
+.jumbo-cup:hover {
   background-color: white;
-  color: black;
-  animation: Jumbo-Cup-Anime 2.0s;
+  color: black; 
 }
 
-@keyframes  Jumbo-Cup-Anime{
 
-    0% {
-       opacity: 0 
-    }
-    100% {
-       opacity: 1 
-    }
-}
-
-#jumbo-cup:hover p {
+.jumbo-cup:hover p {
   color: black;
 }
 
-#jumbo-cup:hover #cup-image{
+.jumbo-cup:hover #cup-image{
 animation: Coffee-Initial 1.0s;
 }
 
@@ -241,9 +265,9 @@ animation: Coffee-Initial 1.0s;
 }
 
 #inform{
-  position: fixed;
+  position: absolute;
   right: 0;
-  top: 100px;
+  top: 65px;
   width: 50px;
   border-radius: 10px;
   background-color: rgba(0,0,0,0.1);
@@ -264,4 +288,3 @@ animation: Coffee-Initial 1.0s;
 #cup-coffee{
   height: 100%;
 } 
-

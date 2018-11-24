@@ -41,7 +41,6 @@ export default class App extends Component {
           console.log("Fetch -- == -- coffee")
           this.setState({venuesDB: coffee}, () =>{
             document.getElementById("buttons").classList.remove("hideIt");
-            document.getElementById("NavBar").classList.remove("hideIt"); 
             this.showAway()  // displaying map on the backgroung with atribute undefined as a choosen price
           })})  
            console.log("componentDidMount end")
@@ -52,11 +51,12 @@ showAway(value, bool){
 
   document.getElementById("adminWindow").classList.add("hideIt");
   document.getElementById("detailWindow").classList.add("hideIt");
-  document.getElementById("newInput").classList.add("hideIt");
+  document.getElementById("newInput").classList.add("hideIt"); 
 
   if (bool) {
     document.getElementById("jumbo").classList.add("move");
     document.getElementById("inform").classList.remove("hideIt");
+    document.getElementById("NavBar").classList.remove("hideIt");
   }
 
 // Maker Jumbo element disappear
@@ -161,8 +161,7 @@ if (this.state.workingLat == '' ) {
                               <img src="https://img.icons8.com/color/26/000000/coffee-to-go.png" height="100%"/>
                             </div>Name: ${myVenue.name} 
                             </br>Price: ${myVenue.price} 
-                            </br>Distance: 
-                            <Link to='maps://maps.google.com/maps?daddr=-34.397,150.644&amp;ll='>Link</Link>
+                            </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>
                           </div>`
 
 
@@ -304,7 +303,7 @@ getVenues(near){
       console.log(response)
       this.setState({
           venues: response.data.response.groups[0].items
-         }, this.renderMap())
+         }, () => {console.log("Calluju back")} )
     })
     .catch(error => {
       console.log("Error - " + error)
@@ -315,6 +314,7 @@ getVenues(near){
 
 
 renderMap(){
+  console.log("rendereMap() fce HERE")
   loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyDgJ8PXMCjCJgtEjBu1gCSxLGaUoq7kW6c&callback=initMap")
   window.initMap = this.initMap
   }
@@ -485,6 +485,7 @@ showAdmin(){
 
 }
 
+
   render() {
 const navbar = {backgroundColor: 'transparent', color: 'white'};
 const text = {color: 'white'};
@@ -523,23 +524,23 @@ this.poloha()
     <span></span>
       <div id="buttons" className="hideIt"  >
 
+  <Grid id="jumbo-cups" >
 
-<Grid id="jumbo-cups" >
     <Row>
     <Col xs={12} md={4} id="col"> 
-       <div id='jumbo-cup' onClick={this.showAway.bind(this, 0.8, true)}>
+       <div id='jumbo-cup1' className="jumbo-cup animated bounceInDown" onClick={this.showAway.bind(this, 0.8, true)}>
        <p>0.8 $ coffee</p> 
         <Image id="cup-image" src="https://img.icons8.com/doodle/96/000000/coffee-to-go.png" width='96px' height='96px' />
        </div>
     </Col>
     <Col xs={12} md={4} id="col" > 
-       <div id='jumbo-cup' onClick={this.showAway.bind(this, 1, true)}>
+       <div id='jumbo-cup2' className="jumbo-cup animated bounceInUp" onClick={this.showAway.bind(this, 1, true)}>
        <p>1 $ coffee</p> 
         <Image id="cup-image" src="https://img.icons8.com/doodle/96/000000/coffee-to-go.png" width='96px' height='96px' />
        </div>
     </Col>
     <Col xs={12} md={4} id="col" > 
-       <div id='jumbo-cup' onClick={this.showAway.bind(this, 2, true)}>
+       <div id='jumbo-cup3' className="jumbo-cup animated bounceInDown" onClick={this.showAway.bind(this, 2, true)}>
        <p>2 $ coffee</p> 
         <Image id="cup-image" src="https://img.icons8.com/doodle/96/000000/coffee-to-go.png" width='96px' height='96px' />
        </div>
@@ -578,6 +579,7 @@ this.poloha()
         <div id="img-div" ><p>1 $</p><Image src="https://img.icons8.com/material-two-tone/26/000000/marker.png" width='24px' height='24px' /></div>
         <div><p>2 $</p><Image src="https://img.icons8.com/material-outlined/26/000000/marker.png" width='24px' height='24px' /></div>
       </div>
+
 <div className="hideIt">
       <Button bsStyle="danger" id="saveBtn" onClick={this.handleAdd.bind(this)} > Save </Button>
       <Button bsStyle="danger" onClick={this.handleShow.bind(this)} > Show state </Button>
@@ -586,6 +588,16 @@ this.poloha()
       </div>
     );
   }
+}
+
+
+window.onscroll = function() {myFunction()};
+
+function myFunction() {
+    if (document.body.scrollTop > 10 || document.documentElement.scrollTop > 10) {
+        //document.getElementById("myImg").className = "slideUp";
+        console.log('Scrolled 200px')
+    }
 }
 
 function loadScript(url){
