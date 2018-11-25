@@ -22,10 +22,14 @@
   height: 50px;
   width: 90px;
   border-radius: 20px;
-  background-color: transparent !important;
+  background-color: transparent;
   outline: none;
   margin-right: 10px;
   color: black;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+  border: none;
 }
 
 
@@ -44,7 +48,7 @@ ul li a{
 #Nav-button:hover{
   background-color: white;
   color: black;
-  animation: Nav-Button-Anime 1.5s;
+  animation: Nav-Button-Anime 1s;
 }
 
 @keyframes  Nav-Button-Anime{
@@ -64,7 +68,21 @@ ul li a{
   #Nav-button{
     width: 100%;
     border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
   }
+
+  #NavBar{
+  background-color: transparent !important;
+  border-bottom: none
+}
+
+.navbar-toggle{
+  background-color: black !important;
+}
+
+.black{
+  background-color: green !important;
+}
 
 .admin{
     width: 100% !important;
@@ -247,21 +265,27 @@ animation: Coffee-Initial 1.0s;
   position: absolute;
   right: 0;
   top: 65px;
-  width: 50px;
+  width: 43px;
   border-radius: 10px;
   background-color: rgba(0,0,0,0.1);
   padding: 0;
+  margin-right: 30px;
+
 }
 
 #inform p{
   font-size: small;
   margin: 0;
-  margin-bottom: -10px;
+  margin-bottom: 0px;
   padding: 0;
 }
 
 #img-div{
   margin-bottom: 5px;
+}
+
+#img-div img{
+  width: 43px;
 }
 
 #cup-coffee{

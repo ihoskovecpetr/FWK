@@ -525,7 +525,6 @@ this.poloha()
     <Nav pullRight>
       <NavItem>
       <Button bsStyle="info" id="Nav-button" className="admin" onClick={this.showAdmin.bind(this)}>Develop</Button>
-      <Button bsStyle="success" >Back</Button>
       </NavItem>
     </Nav>
   </Navbar.Collapse>
@@ -588,9 +587,9 @@ this.poloha()
       <NewVenue onSubmit={this.onSubmit.bind(this)} onClose={this.onClose.bind(this)} />
     
       <div id="inform" className="hideIt" >
-        <div id="img-div" ><p>0.8 $</p><Image src="https://img.icons8.com/material-rounded/26/000000/marker.png" width='24px' height='24px' /></div>
-        <div id="img-div" ><p>1 $</p><Image src="https://img.icons8.com/material-two-tone/26/000000/marker.png" width='24px' height='24px' /></div>
-        <div><p>2 $</p><Image src="https://img.icons8.com/material-outlined/26/000000/marker.png" width='24px' height='24px' /></div>
+        <div id="img-div" onClick={this.showAway.bind(this, 0.8)} ><p>0.8 $</p><Image src="https://img.icons8.com/material-rounded/48/000000/marker.png" /></div>
+        <div id="img-div" onClick={this.showAway.bind(this, 1)} ><p>1 $</p><Image src="https://img.icons8.com/material-two-tone/48/000000/marker.png" /></div>
+        <div id="img-div" onClick={this.showAway.bind(this, 2)} ><p>2 $</p><Image src="https://img.icons8.com/material-outlined/48/000000/marker.png" /></div>
       </div>
 
 <div className="hideIt">
