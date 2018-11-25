@@ -15,6 +15,12 @@ export default class Detail extends Component {
 
 }
 
+handleDelete(_id){
+  console.log("_id-cko")
+  console.log(_id)
+  this.props.markItDelete(_id)
+//  this.props.fceDelete(_id)
+}
 
 
 
@@ -28,18 +34,19 @@ export default class Detail extends Component {
             <Row className="show-grid">
 
               <FormGroup>
-                  <Col xs={12} md={6} >
-                     <ControlLabel><p>Name of this place:</p></ControlLabel>
+                  <Col xs={4} md={4} >
+                     <ControlLabel><p>Name</p></ControlLabel>
                   </Col>
-                    <Col xs={12} md={6} >
-                     <ControlLabel><p> {this.props.venue.name}</p></ControlLabel>
+                    <Col xs={4} md={4} >
+                     <ControlLabel><b><p>{this.props.venue.name}</p></b></ControlLabel>
+                  </Col>
+                 <Col xs={4} md={4} >
+                    <Button bsStyle="danger" className="button-info" onClick={this.handleDelete.bind(this, this.props.venue._id)} >Delete</Button>
                   </Col>
 
               </FormGroup>
             </Row>
-          <Row>
-                 <Button bsStyle="info" className="button" >Submit</Button>
-          </Row>
+
         </Grid>
       </form>
       </div>

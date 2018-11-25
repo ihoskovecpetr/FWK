@@ -244,13 +244,14 @@ animation: Coffee-Initial 1.0s;
 }
 
 #grid{
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 10px;
 }
 
 #grid p{
   font-style: italic;
   padding: 0;
+  color: white;
 }
 
 #firstRow{

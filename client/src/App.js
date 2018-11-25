@@ -23,7 +23,9 @@ export default class App extends Component {
       workingLng: '',
       workingZoom: '',
       workingVenue: '', // Venue on which is clicked right now, othervise empty
+      workingPrice: '', // Price choosen for rendering
       unConfirmedArray: [],
+      toBeDeletedArray: [],
       adminOpen: '',
       navExpand: false,
 
@@ -52,32 +54,43 @@ export default class App extends Component {
 
 showAway(value, bool){
 
+    if (value) {
+     this.setState({workingPrice: value})  // to keep reference of working Price for re-rendering map
+    }
+   
+    if (value == undefined) {
+      value = this.state.workingPrice;
+    }
+
+
   document.getElementById("adminWindow").classList.add("hideIt");
   document.getElementById("detailWindow").classList.add("hideIt");
   document.getElementById("newInput").classList.add("hideIt"); 
 
-  if (bool) {
+  if (bool) { //Moving away with Jumbo first page
     document.getElementById("jumbo").classList.add("move");
     document.getElementById("inform").classList.remove("hideIt");
     document.getElementById("NavBar").classList.remove("hideIt");
   }
 
-// Maker Jumbo element disappear
-//  document.getElementById("jumbo").classList.add("move");
- // document.getElementById("inform").classList.remove("hideIt");
-
 //Taking out all the unconfirmed arrays
 
 var helperArray = [];
+var helperArrayDeleted = [];
 
     _.map(this.state.venuesDB.docs, (one, index) => {
 
 if (one.confirmed == false) {
   helperArray.push(one)
 }
+
+if (one.toBeDeleted == true) {
+  helperArrayDeleted.push(one)
+}
   } )
 
   this.setState({unConfirmedArray: helperArray})
+  this.setState({toBeDeletedArray: helperArrayDeleted})
 
 
 // Sort which coffee's should be shown
@@ -130,6 +143,10 @@ if (one.confirmed == false) {
       })
 }
 
+statusPrint(){
+return(<p> Ahoj </p>)
+}
+
 
 // render location regarding to price custommer choose.
 
@@ -166,10 +183,12 @@ if (this.state.workingLat == '' ) {
     var contentString = `<div id="infowind">
                             <div id="cup-coffee">
                               <img src="https://img.icons8.com/color/26/000000/coffee-to-go.png" height="100%"/>
-                            </div>Name: ${myVenue.name} 
-                            </br>Price: ${myVenue.price} 
-                            </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>
-                          </div>`
+                            </div>Name: <b>${myVenue.name}</b> 
+                            </br>Price of coffee: <b>${myVenue.price} $</b>
+                            </br>To be Deleted: <b>${myVenue.toBeDeleted}</b> 
+                             </div>`
+// </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>
+            
 
           switch(myVenue.price) {
               case 0.8:
@@ -231,6 +250,27 @@ if (this.state.workingLat == '' ) {
     })
   }
 })
+console.log("API VenueSSSSSSSSSŠSSSSSSSSSSSSSSSSSSSSSSS")
+console.log(this.state.venues)
+
+//Print of venues from foursQ API
+          this.state.venues.map(myVenue =>{
+
+          console.log("RENDRUJU Venues (API)")
+
+    var contentString = `${myVenue.venue.name}` + '<br>' + `${myVenue.venue.location.address}`
+
+    var marker = new window.google.maps.Marker({
+      position: {lat: myVenue.venue.location.lat,
+                 lng: myVenue.venue.location.lng},
+      map: map,
+      title: myVenue.name,
+    })
+    marker.addListener('click', function() {
+      infowindow.setContent(contentString)
+      infowindow.open(map, marker);
+    })
+  })
 
 
 var GeoMarker = new window.GeolocationMarker(map);
@@ -292,6 +332,9 @@ var here = this;
 // render MAP for a first time while search for a places from Foursquare API
 loadAgain(event){
   event.preventDefault();
+    document.getElementById("jumbo").classList.add("move");
+    document.getElementById("inform").classList.remove("hideIt");
+    document.getElementById("NavBar").classList.remove("hideIt");
   this.getVenues(document.getElementById('searchPlace').value) // calling foursquare API
   this.showAway() // just show all points from DB with 0.8$ price
 }
@@ -414,22 +457,7 @@ Add(name, lng, lat, info){
             })
   }
 
-Update(_id){
-
-    fetch('/acknowleadge-point', {
-          method: 'POST',
-          mode: "same-origin",
-          headers: {
-          Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  },
-          body: JSON.stringify({_id: _id}),
-            }).then(this.componentDidMount()).then(this.showAdmin())
-  }
-
-
-//
-    onSubmit(){
+onSubmit(){
     document.getElementById("newInput").classList.add("hideIt");
     console.log(document.getElementById('inputName').value);
     console.log(document.getElementById('inputPrice').value);
@@ -446,6 +474,45 @@ Update(_id){
             }).then(this.componentDidMount())
 
   }
+
+Update(_id){
+
+    fetch('/acknowleadge-point', {
+          method: 'POST',
+          mode: "same-origin",
+          headers: {
+          Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  },
+          body: JSON.stringify({_id: _id}),
+            }).then(this.componentDidMount()).then(this.showAdmin())
+  }
+
+Delete(_id){
+    fetch('/delete-point', {
+          method: 'POST',
+          mode: "same-origin",
+          headers: {
+          Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  },
+          body: JSON.stringify({_id: _id}),
+            }).then(this.componentDidMount())
+  }
+
+markItDelete(_id){
+      fetch('/mark-delete-point', {
+          method: 'POST',
+          mode: "same-origin",
+          headers: {
+          Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  },
+          body: JSON.stringify({_id: _id}),
+            }).then(this.componentDidMount())
+  }
+
+
 
   onClose(){
     document.getElementById("newInput").classList.add("hideIt");
@@ -560,13 +627,13 @@ this.poloha()
     </Row>
    </Grid>
 
-<div className="hideIt">
+<div className="">
 /* hiddent now, used just for development purposes  */
 
      <Button bsStyle="primary" id="button" className="button" onClick={this.loadAgain.bind(this, 'Sydney')} >Search location Canb - shithole</Button>           
         <form id="formJumbo">
           <label>
-            Place:
+            What kind of place are you looking for:
             <input type="text" name="place" id="searchPlace" />
           </label>
         <label>
@@ -575,21 +642,20 @@ this.poloha()
           </label>
           <input type="submit" value="Submit" onClick={this.loadAgain.bind(this)} />
         </form>
-    <Button bsStyle="info"> Search coffees in mine Hood </Button>
 </div>
     </div>
   </Jumbotron>
 
 <header className="Headless-header">
       <div id="map"></div>
-     <Detail venue={this.state.workingVenue} />
-     <Admin unconfirmed={this.state.unConfirmedArray} update={this.Update.bind(this)} />
+     <Detail venue={this.state.workingVenue} fceDelete={this.Delete.bind(this)} markItDelete={this.markItDelete.bind(this)} />
+     <Admin unconfirmed={this.state.unConfirmedArray} toBeDeleted={this.state.toBeDeletedArray} update={this.Update.bind(this)} delete={this.Delete.bind(this)} />
       <NewVenue onSubmit={this.onSubmit.bind(this)} onClose={this.onClose.bind(this)} />
     
       <div id="inform" className="hideIt" >
-        <div id="img-div" onClick={this.showAway.bind(this, 0.8)} ><p>0.8 $</p><Image src="https://img.icons8.com/material-rounded/48/000000/marker.png" /></div>
+        <div id="img-div" onClick={this.showAway.bind(this, 0.8)} ><p>0.8 $</p><Image src="https://img.icons8.com/material-outlined/48/000000/marker.png" /></div>
         <div id="img-div" onClick={this.showAway.bind(this, 1)} ><p>1 $</p><Image src="https://img.icons8.com/material-two-tone/48/000000/marker.png" /></div>
-        <div id="img-div" onClick={this.showAway.bind(this, 2)} ><p>2 $</p><Image src="https://img.icons8.com/material-outlined/48/000000/marker.png" /></div>
+        <div id="img-div" onClick={this.showAway.bind(this, 2)} ><p>2 $</p><Image src="https://img.icons8.com/material-rounded/48/000000/marker.png" /></div>
       </div>
 
 <div className="hideIt">

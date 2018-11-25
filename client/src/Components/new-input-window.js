@@ -31,10 +31,10 @@ handleOnSubmit(e){
             <Row className="show-grid">
 
               <FormGroup>
-                  <Col xs={12} md={4} >
-                     <ControlLabel><p>Name of this place:</p></ControlLabel>
+                  <Col xs={2} md={4} >
+                     <ControlLabel><p>Name</p></ControlLabel>
                   </Col>
-                  <Col xs={12} md={8}>
+                  <Col xs={10} md={8}>
                    <FormControl placeholder="Best coffee Gatton" type="text" id="inputName" />
                   </Col>
 
@@ -42,10 +42,10 @@ handleOnSubmit(e){
             </Row>
             <Row>
              <FormGroup>
-                <Col xs={12} md={4} >
-                  <ControlLabel><p>Select</p></ControlLabel>
+                <Col xs={2} md={4} >
+                  <ControlLabel><p>Price</p></ControlLabel>
                 </Col>
-                <Col xs={12} md={8}>
+                <Col xs={10} md={8}>
                   <FormControl componentClass="select" placeholder="select" id="inputPrice">
                   <option value="0.8" >0.8$</option>
                   <option value="1" >1$</option>
@@ -55,7 +55,7 @@ handleOnSubmit(e){
             </FormGroup>
           </Row>
           <Row>
-                 <Button bsStyle="info" className="button" type="submit" onClick={this.handleOnSubmit.bind(this)} >Submit</Button>
+                 <Button bsStyle="success" className="button" id="btn-submit" type="submit" onClick={this.handleOnSubmit.bind(this)} >Submit</Button>
           </Row>
         </Grid>
 </form>

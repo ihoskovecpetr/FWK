@@ -6,3 +6,17 @@
   width: 100%;
   padding: 10px;
 }
+
+#detailForm p{
+height: 40px;
+margin: 0 !important;
+}
+
+.button-info{
+	margin: 10px;
+	height: 40px;
+}
+
+.control-label{
+	margin: 15px;
+}

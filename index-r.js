@@ -52,16 +52,17 @@ const POI = new mongoose.Schema({
   info: {type: String},
   price: {type: Number},
   confirmed: {type: Boolean},
+  toBeDeleted: {type: Boolean},
   subinfo: [Sub_Menu]   
 });
 
 const coffeeCollection = mongoose.model('Phil', POI)
 
 
-function Add(name, lng, lat, info, price, confirmed) {
+function Add(name, lng, lat, info, price, confirmed, toBeDeleted) {
 console.log("Add P AKCE")
 
-  coffeeCollection.create({ name: name , lng: lng, lat: lat , info: info, price: price, confirmed: confirmed} )
+  coffeeCollection.create({ name: name , lng: lng, lat: lat , info: info, price: price, confirmed: confirmed, toBeDeleted: false} )
   .then(doc => {
     console.log("Pridano!!!!");
     res.json({doc: doc});   
@@ -127,6 +128,22 @@ router.post('/acknowleadge-point',function(req , res, next){
     var id = req.body._id;
     coffeeCollection.findByIdAndUpdate( id , { $set: { confirmed: true}}, function(){console.log("Done Update")} );
 });
+
+router.post('/mark-delete-point',function(req , res, next){
+    console.log("/mark-delete-point k upraveni _id");
+    console.log(req.body._id);
+    var id = req.body._id;
+    coffeeCollection.findByIdAndUpdate( id , { $set: { toBeDeleted: true}}, function(){console.log("Done Update To Be Deleted")} );
+});
+
+router.post('/delete-point',function(req , res, next){
+    console.log("delete-point po odsouhlaseni adminem");
+    console.log(req.body._id);
+    var id = req.body._id;
+    coffeeCollection.deleteMany({ _id: req.body._id }, function(err, delData){
+    console.log("DELETEDDD" + delData)})
+    res.send('Deleted - hotovo'); 
+   });
 
 
 module.exports = router;
