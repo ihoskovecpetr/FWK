@@ -135,6 +135,8 @@ if (one.confirmed == false) {
 
 renderAwaySorted(){
 
+  console.log("render away sorted cycle")
+
 var LandL;
 var Zoom;
 if (this.state.workingLat == '' ) {
@@ -146,6 +148,8 @@ if (this.state.workingLat == '' ) {
   Zoom = this.state.workingZoom;
 }
 
+
+  console.log("New map has been rendered SSSSSSSSSSSSSSSSSSSSSSSS")
 
   var map = new window.google.maps.Map(document.getElementById('map'), {
     center: {lat: LandL[0], lng: LandL[1]},
@@ -223,7 +227,7 @@ if (this.state.workingLat == '' ) {
 
     map.addListener('click', function(event) {
         infowindow.close();
-        
+
     })
   }
 })
@@ -237,7 +241,6 @@ var here = this;
 
   map.addListener('click', function(event) { 
 
-    console.log("is it in here????????????????????")
 
     if (here.state.adminOpen) {
       document.getElementById("adminWindow").classList.add("hideIt"); // close the admin window on click on map
@@ -278,9 +281,10 @@ var here = this;
 
 
   map.addListener('center_changed', function(event) {
-      here.setState({workingLat: map.getCenter().lat()})
-      here.setState({workingLng: map.getCenter().lng()})
-      here.setState({workingZoom: map.getZoom()})
+     // here.setState({workingLat: map.getCenter().lat()})
+     // here.setState({workingLng: map.getCenter().lng()})
+     // here.setState({workingZoom: map.getZoom()})
+      console.log("CHanged wiew of screen XXXXxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   })
 }
 
@@ -323,7 +327,7 @@ getVenues(near){
 
 
 renderMap(){
-  console.log("rendereMap() fce HERE")
+  console.log("Map has been rendered again")
   loadScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyDgJ8PXMCjCJgtEjBu1gCSxLGaUoq7kW6c&callback=initMap")
   window.initMap = this.initMap
   }
@@ -450,7 +454,6 @@ Update(_id){
 //loadig the location of the user rigth away when the app open's and is rendered for a first time
 
   poloha(){
-
         if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.showPosition.bind(this));
 
@@ -460,11 +463,11 @@ Update(_id){
 }
 
   showPosition(position){
-
       this.setState(
   { workingLocation: [position.coords.latitude, position.coords.longitude ] },
-  () => {console.log("It has been writen to the state - This is real Callback!!")
-      this.renderMap()
+  () => {
+  //  console.log("rendering map from showPosition -------------------------")
+  //    this.renderMap()
   } // this callback renders coffees on the map
 );
       
@@ -494,9 +497,9 @@ setNavExpanded(){
 
 
   render() {
-const navbar = {backgroundColor: 'transparent', color: 'white'};
-const text = {color: 'white'};
+const navbar = { backgroundColor: 'transparent' };
 
+console.log("rendering whole document again")
 this.poloha()
     
     return (
