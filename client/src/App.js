@@ -627,7 +627,7 @@ this.poloha()
     </Row>
    </Grid>
 
-<div className="">
+<div className="hideIt">
 /* hiddent now, used just for development purposes  */
 
      <Button bsStyle="primary" id="button" className="button" onClick={this.loadAgain.bind(this, 'Sydney')} >Search location Canb - shithole</Button>           
