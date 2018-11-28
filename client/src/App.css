@@ -9,8 +9,9 @@
 
 #NavBar{
   margin-bottom: 0px;
-  background-color: rgba(255, 255, 255, 0.5) !important;
-  border-bottom: solid 1px black;
+  background-color: rgba(255, 255, 255, 1) !important;
+  border-bottom: solid 0px black !important;
+  box-shadow: 3px 3px 5px grey;
 }
 
 #Nav-button{
@@ -73,6 +74,7 @@ ul li a{
 
   #NavBar{
   background-color: transparent !important;
+  box-shadow: none;
   border-bottom: none
 }
 
@@ -268,14 +270,16 @@ animation: Coffee-Initial 1.0s;
   top: 65px;
   width: 43px;
   border-radius: 10px;
-  background-color: rgba(0,0,0,0.1);
+  background-color: white;
   padding: 0;
   margin-right: 30px;
+  box-shadow: 3px 3px 5px grey;
 
 }
 
 #inform p{
   font-size: small;
+  font-weight: bold;
   margin: 0;
   margin-bottom: 0px;
   padding: 0;
@@ -292,3 +296,18 @@ animation: Coffee-Initial 1.0s;
 #cup-coffee{
   height: 100%;
 } 
+
+#currentLocation{
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border-radius: 22px;
+  box-shadow: 3px 3px 5px grey;
+}
+
+#currentLocation img{
+  margin-top: 2px;
+}
