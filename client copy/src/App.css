@@ -1,0 +1,313 @@
+.Head{
+  border-radius: 5px;
+  height: 100vh;
+}
+
+.Head p {
+ color: black;
+}
+
+#NavBar{
+  margin-bottom: 0px;
+  background-color: rgba(255, 255, 255, 1) !important;
+  border-bottom: solid 0px black !important;
+  box-shadow: 3px 3px 5px grey;
+}
+
+#Nav-button{
+  font-style: italic;
+  font-weight: bold;
+  font-size: large;
+  border: none;
+  padding: 0 !important;
+  height: 50px;
+  width: 90px;
+  border-radius: 20px;
+  background-color: transparent;
+  outline: none;
+  margin-right: 10px;
+  color: black;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+  border: none;
+}
+
+
+.admin{
+    width: 180px !important;
+
+}
+
+ul li a{
+  padding: 0 !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+#Nav-button:hover{
+  background-color: white;
+  color: black;
+  animation: Nav-Button-Anime 1s;
+}
+
+@keyframes  Nav-Button-Anime{
+    0% {
+        
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        
+    }
+}
+
+@media (max-width: 768px){
+
+  #Nav-button{
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  #NavBar{
+  background-color: transparent !important;
+  box-shadow: none;
+  border-bottom: none
+}
+
+.navbar-toggle{
+  background-color: black !important;
+}
+
+.black{
+  background-color: green !important;
+}
+
+.admin{
+    width: 100% !important;
+    border: solid 1px !important;
+    border-radius: 10px;
+}
+
+
+}
+
+@media (max-width: 992px){
+
+  .jumbo-cup{
+    margin-top: 0 !important;
+  }
+}
+
+
+
+#jumbo{
+  position: fixed;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: relative;
+  z-index: 5;
+  padding-top: 0;
+}
+
+.jumbotron{
+  margin-bottom: 0;
+}
+
+#col{
+    text-align: center;
+}
+
+#jumbo-cup2{
+animation-delay: 0.5s
+}
+#jumbo-cup3{
+animation-delay: 1s
+}
+
+
+.jumbo-cup{
+  display: inline-block;
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  margin-top: 40%;
+}
+
+
+
+.jumbo-cup p{
+  padding-top: 20px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+#cup-image{
+display: inline-block;
+margin: 10px;
+margin-top: 0;
+}
+
+.jumbo-cup:hover {
+  background-color: white;
+  color: black; 
+}
+
+
+.jumbo-cup:hover p {
+  color: black;
+}
+
+.jumbo-cup:hover #cup-image{
+animation: Coffee-Initial 1.0s;
+}
+
+@keyframes  Coffee-Initial{
+
+    50% {
+        transform: translate(0,5px) ;   
+    }
+
+}
+
+
+#image{
+  height: 50px;
+  width: 50px;
+}
+
+
+.move{
+    -webkit-animation: away 1s linear forwards;
+}
+
+    @-webkit-keyframes away {
+    0% {
+        opacity: 1; 
+    }
+    98% { 
+        opacity: 1;             
+        transform: translate(100vw) scale(1);
+    }
+    100% {   
+        opacity: 0;         
+        transform: translate(-100vw) scale(1);
+    }
+    }
+
+#map {
+  height: 100vh;
+  width: 100vw;
+  top: 0px;
+}
+
+#map p {
+ color: black;
+}
+
+.Headless-header {
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+
+}
+
+.Headless-header p {
+ padding: 20px;
+ font-size: 20px;
+ color: black;
+}
+
+#saveBtn{
+  position: fixed;
+  bottom: 0px;
+}
+
+
+
+.button{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.hideIt{
+  display: none;
+}
+
+#grid{
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+}
+
+#grid p{
+  font-style: italic;
+  padding: 0;
+  color: white;
+}
+
+#firstRow{
+  margin: 0;
+  padding: 0;
+}
+#firstRow p{
+  font-size: small;
+}
+
+#inform{
+  position: absolute;
+  right: 0;
+  top: 65px;
+  width: 43px;
+  border-radius: 10px;
+  background-color: white;
+  padding: 0;
+  margin-right: 30px;
+  box-shadow: 3px 3px 5px grey;
+
+}
+
+#inform p{
+  font-size: small;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 0px;
+  padding: 0;
+}
+
+#img-div{
+  margin-bottom: 5px;
+}
+
+#img-div img{
+  width: 43px;
+}
+
+#cup-coffee{
+  height: 100%;
+} 
+
+#currentLocation{
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  border-radius: 22px;
+  box-shadow: 3px 3px 5px grey;
+}
+
+#currentLocation img{
+  margin-top: 2px;
+}

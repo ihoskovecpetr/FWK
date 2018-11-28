@@ -19,8 +19,7 @@ export default class App extends Component {
       venuesDB: [],
       displVenues: [],
       workingLocation: [],
-      workingLat: '',
-      workingLng: '',
+      ClickedPosition: [],
       workingZoom: '',
       workingVenue: '', // Venue on which is clicked right now, othervise empty
       workingPrice: '', // Price choosen for rendering
@@ -33,6 +32,7 @@ export default class App extends Component {
   }
 
   componentDidMount(){
+    this.poloha()  //find out opsition and put this location into workingLocation
    window.initMap = this.initMap
 
    console.log("componentDidMount start")
@@ -150,32 +150,31 @@ return(<p> Ahoj </p>)
 }
 
 
-// render location regarding to price custommer choose.
+// render location sorted wawy into display
 
 renderAwaySorted(){
 
-  console.log("render away sorted cycle")
-
 var LandL;
 var Zoom;
-if (this.state.workingLat == '' ) {
+if (this.state.workingLocation == '' ) {
   LandL = [-33.8690 , 151.2018];
   Zoom = 13
 
 } else { 
-  LandL = [ this.state.workingLat, this.state.workingLng ];
-  Zoom = this.state.workingZoom;
+  LandL = [ this.state.workingLocation[0], this.state.workingLocation[1] ];
+  Zoom = 13;
 }
 
-
-  console.log("New map has been rendered SSSSSSSSSSSSSSSSSSSSSSSS")
 
   var map = new window.google.maps.Map(document.getElementById('map'), {
     center: {lat: LandL[0], lng: LandL[1]},
     zoom: Zoom,
     disableDefaultUI: true,
     mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+    clickableIcons: false,
   });
+
+
 
 
   var infowindow = new window.google.maps.InfoWindow()
@@ -188,9 +187,9 @@ if (this.state.workingLat == '' ) {
                             </div>Name: <b>${myVenue.name}</b> 
                             </br>Price of coffee: <b>${myVenue.price} $</b>
                             </br>To be Deleted: <b>${myVenue.toBeDeleted}</b> 
-                             </div>`
-// </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>
-            
+                             </div>` + '<button onclick="myFunction()">Click me</button>'
+
+// </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>    
 
           switch(myVenue.price) {
               case 0.8:
@@ -274,8 +273,9 @@ console.log(this.state.venues)
     })
   })
 
-
+console.log("Pred Geolok MRKR")
 var GeoMarker = new window.GeolocationMarker(map);
+console.log("Za Geolok MRKR")
 
 var previousMarker;
 var here = this;
@@ -307,7 +307,7 @@ var here = this;
       
       document.getElementById("newInput").classList.remove("hideIt");
       
-      here.setState({workingLocation: [event.latLng.lat(), event.latLng.lng()]})
+      here.setState({ClickedPosition: [event.latLng.lat(), event.latLng.lng()]})
 
           previousMarker = new window.google.maps.Marker({
           position: event.latLng,
@@ -324,12 +324,12 @@ var here = this;
 
   map.addListener('center_changed', function(event) {
     // Performance issue (unnecessary re-rendering of whole map, look on it later)
-      here.setState({workingLat: map.getCenter().lat(), workingLng: map.getCenter().lng(), workingZoom: map.getZoom()})
-     // here.setState({workingLng: map.getCenter().lng()})
-     // here.setState({workingZoom: map.getZoom()})
+     // here.setState({workingLat: map.getCenter().lat(), workingLng: map.getCenter().lng(), workingZoom: map.getZoom()})
       console.log("CHanged wiew of screen XXXXxxxxxxxxxxxxxxxxxxxxxxxxxxx")
   })
 }
+
+
 
 
 // render MAP for a first time while search for a places from Foursquare API
@@ -473,7 +473,7 @@ onSubmit(){
           Accept: 'application/json',
                   'Content-Type': 'application/json',
                   },
-          body: JSON.stringify({lng: this.state.workingLocation[0], lat: this.state.workingLocation[1] , name:  document.getElementById('inputName').value , price: document.getElementById('inputPrice').value, confirmed: false }),
+          body: JSON.stringify({lng: this.state.ClickedPosition[0], lat: this.state.ClickedPosition[1] , name:  document.getElementById('inputName').value , price: document.getElementById('inputPrice').value, confirmed: false }),
             }).then(this.componentDidMount())
 
   }
@@ -525,6 +525,7 @@ markItDelete(_id){
 
   poloha(){
         if (navigator.geolocation) {
+          console.log("Geolocation is supported");
       navigator.geolocation.getCurrentPosition(this.showPosition.bind(this));
 
     } else { 
@@ -536,7 +537,8 @@ markItDelete(_id){
       this.setState(
   { workingLocation: [position.coords.latitude, position.coords.longitude ] },
   () => {
-    console.log("rendering map from showPosition ,  -------------------------")
+    console.log("Current GPS gained and writen info WorkingLocation -------------------------")
+    this.showAway()
   //    this.renderMap()
   } // this callback renders coffees on the map
 );
@@ -567,6 +569,7 @@ setNavExpanded(){
 
 changeCenter(){
   console.log("change location on me")
+  this.renderAwaySorted()
 }
 
 
@@ -574,7 +577,6 @@ changeCenter(){
 const navbar = { backgroundColor: 'transparent' };
 
 console.log("rendering whole document again")
-this.poloha()
     
     return (
       <div className="Head">

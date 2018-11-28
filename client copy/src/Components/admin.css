@@ -1,0 +1,39 @@
+#adminWindow{
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  padding: 10px;
+  border: solid 2px white ;
+  border-radius: 10px;
+  color: white;
+}
+
+#gridAdmin {
+  width: 100%;
+  height: 92%;
+
+}
+
+#gridAdmin p {
+	padding: 0;
+	margin: 0;
+  color: white;
+}
+
+.newRow{
+	border-top: solid 1px white;
+	border-bottom: solid 1px white;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+#btnCloseAdmin{
+}
+
+.column{  
+  height: 300px;
+  overflow: scroll;
+}
+

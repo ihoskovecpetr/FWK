@@ -1,0 +1,32 @@
+#newInput{
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  padding-top: 0;
+}
+
+#newInput p{
+	height: 15px;
+	margin: 0;
+}
+
+#newInput label{
+	margin: 0;
+}
+
+
+.hideInput{
+  display: none;
+}
+
+#btn-submit{
+	width: 80%;
+	margin-bottom: 5px;
+}
+
+
+.row .form-group{
+	padding-top: 5px;
+}
