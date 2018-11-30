@@ -583,7 +583,8 @@ showAdmin(){
         document.getElementById("adminWindow").classList.remove("hideIt");
         document.getElementById("detailWindow").classList.add("hideIt");
         document.getElementById("newInput").classList.add("hideIt");
-        this.setState({navExpand: false})
+        document.getElementById("add-point").classList.add("hideIt");
+        this.setState({navExpand: false, adminOpen: true, addAvailable: false})
          this.setState({adminOpen: true})
         //onShowADMIN CHANGES sorted Venues to be displayed and set to render them then
         if (this.state.adminKey == 1) {

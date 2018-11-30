@@ -67,7 +67,7 @@ printRowsDeleted(){
         onSelect={this.handleSelect}
         id="controlled-tab-example"
       >
-        <Tab eventKey={1} title="__New locations__">
+        <Tab eventKey={1} title="New locations">
             <Grid id="gridAdmin">
             <Row>
               <Col xs={12} md={12} className="column" >
@@ -87,7 +87,7 @@ printRowsDeleted(){
                </Row>
             </Grid>
       </Tab>
-      <Tab eventKey={2} title="__To be Deleted__">
+      <Tab eventKey={2} title="To be Deleted">
           <Grid id="gridAdmin">
             <Row>
               <Col xs={12} md={12} className="column" >
