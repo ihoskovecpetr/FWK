@@ -175,7 +175,7 @@ if (this.state.workingLocation == '' ) {
     disableDefaultUI: true,
     mapTypeId: window.google.maps.MapTypeId.ROADMAP,
     clickableIcons: false,
-    gestureHandling: "cooperative", 
+    gestureHandling: "greedy", 
   });
 
 
