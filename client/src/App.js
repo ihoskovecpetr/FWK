@@ -222,22 +222,22 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
 
           switch(myVenue.price) {
               case 0.8:
-                  var url = "https://img.icons8.com/material-outlined/26/000000/marker.png"
+                  var url = "https://img.icons8.com/material-outlined/48/000000/marker.png"
                   break;
               case 1:
-                   var url = "https://img.icons8.com/material-two-tone/26/000000/marker.png"
+                   var url = "https://img.icons8.com/material-two-tone/48/000000/marker.png"
                   break;
               case 2:
-                   var url = "https://img.icons8.com/material-rounded/26/000000/marker.png"
+                   var url = "https://img.icons8.com/material-rounded/48/000000/marker.png"
                    break;
               }
 
 
         var image = {
         url: url,
-        size: new window.google.maps.Size(24, 24),
+        size: new window.google.maps.Size(48, 48),
         origin: new window.google.maps.Point(0, 0),
-        anchor: new window.google.maps.Point(12, 24)
+        anchor: new window.google.maps.Point(24, 48)
       };
 
   var marker = new window.google.maps.Marker({
@@ -285,7 +285,6 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
   
 })
 
-  /* // API ----- API
 console.log("API VenueSSSSSSSSSŠSSSSSSSSSSSSSSSSSSSSSSS")
 console.log(this.state.venues)
 
@@ -306,7 +305,7 @@ console.log(this.state.venues)
       infowindow.setContent(contentString)
       infowindow.open(map, marker);
     })
-  })  */
+  }) 
 
 var previousMarker;
 var here = this;
@@ -380,13 +379,13 @@ getVenues(near){
       client_id: 'PPIUJVIDIRE512E2FZQE2U04ONIIABQ45E2TXB3Z42SGNJCL' ,
       client_secret: '4DQL4XDUCGWKFCOJSZS0O31T0HOHSXQL01L0OTKJV2BDOBOE' ,
       query: near,
+      near: 'Sydney',
       intent: 'browse',
-      ll: this.state.workingLocation,
+      //ll: {lat: this.state.workingLocation[0], lng: this.state.workingLocation[1]},
       v: '20181106',
-      radius: 40000,
+      //radius: 40000,
       alt: 0,
       limit: 100,
-
   }
   axios.get(endpoint + new URLSearchParams(parameters))
     .then(response => {
@@ -442,8 +441,10 @@ initMap(){
 }
 
 handleShow(){
+
+
   
- /*   var map = new window.google.maps.Map(document.getElementById('map'), {
+ var map = new window.google.maps.Map(document.getElementById('map'), {
     center: {lat: this.state.venues[0].venue.location.lat , lng: this.state.venues[0].venue.location.lng},
     zoom: 10
   });
@@ -465,7 +466,7 @@ handleShow(){
       infowindow.setContent(contentString)
       infowindow.open(map, marker);
     })
-  }) */
+  })
 }
 
 
@@ -679,6 +680,7 @@ console.log("rendering whole document again")
    </Grid>
 
 <div className="hideIt">
+
 /* hiddent now, used just for development purposes  */
 
      <Button bsStyle="primary" id="button" className="button" onClick={this.loadAgain.bind(this, 'Sydney')} >Search location Canb - shithole</Button>           
