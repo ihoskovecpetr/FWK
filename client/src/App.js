@@ -214,9 +214,10 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
                             <div id="cup-coffee">
                               <img src="https://img.icons8.com/color/26/000000/coffee-to-go.png" height="100%"/>
                             </div>Name: <b>${location.name}</b> 
+                            <a href="http://maps.google.com/maps?saddr=New+York&daddr=San+Francisco">Route New York --> San Francisco</a>
                             </br>Price of coffee: <b>${location.price} $</b>
                             </br>To be Deleted: <b>${location.toBeDeleted}</b> 
-                             </div>` + '<div id="infoWindow" />'
+                             </div>` + '<div id="infoWindow" /><a href="http://maps.google.com/maps?saddr=New+York&daddr=San+Francisco">Route New York --> San Francisco</a>'
 
           switch(location.price) {
               case 0.8:
@@ -585,7 +586,6 @@ showAdmin(){
         document.getElementById("newInput").classList.add("hideIt");
         document.getElementById("add-point").classList.add("hideIt");
         this.setState({navExpand: false, adminOpen: true, addAvailable: false})
-         this.setState({adminOpen: true})
         //onShowADMIN CHANGES sorted Venues to be displayed and set to render them then
         if (this.state.adminKey == 1) {
           this.setState({displVenues: this.state.unConfirmedArray }, function(){
