@@ -208,19 +208,22 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
 
   var infowindow = new window.google.maps.InfoWindow()
 
-  var markers = this.state.displVenues.map(myVenue =>{
 
-    var contentString = `<div id="infowind">
+
+// Clustering
+
+
+  var markersJS = this.state.displVenues.map((location, i) => {
+
+      var contentString = `<div id="infowind">
                             <div id="cup-coffee">
                               <img src="https://img.icons8.com/color/26/000000/coffee-to-go.png" height="100%"/>
-                            </div>Name: <b>${myVenue.name}</b> 
-                            </br>Price of coffee: <b>${myVenue.price} $</b>
-                            </br>To be Deleted: <b>${myVenue.toBeDeleted}</b> 
+                            </div>Name: <b>${location.name}</b> 
+                            </br>Price of coffee: <b>${location.price} $</b>
+                            </br>To be Deleted: <b>${location.toBeDeleted}</b> 
                              </div>` + '<div id="infoWindow" />'
 
-// </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>    
-
-          switch(myVenue.price) {
+          switch(location.price) {
               case 0.8:
                   var url = "https://img.icons8.com/material-outlined/48/000000/marker.png"
                   break;
@@ -232,7 +235,6 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
                    break;
               }
 
-
         var image = {
         url: url,
         size: new window.google.maps.Size(48, 48),
@@ -241,20 +243,14 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
       };
 
   var marker = new window.google.maps.Marker({
-      position: {lat: myVenue.lat,
-                 lng: myVenue.lng},
+      position: {lat: location.lat,
+                 lng: location.lng},
       map: map,
       icon: image,
-      title: myVenue.name,
+      title: location.name,
     })
 
-  //print only Markers with status confirmed
-
-
-
-
-
-   // Listener on the Location marker
+     // Listener on the Location marker
     var here = this
     marker.addListener('click', function() {
 
@@ -273,23 +269,30 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
     })
       infowindow.open(map, marker);
 
-      here.setState({workingVenue: myVenue}, function(){document.getElementById("detailWindow").classList.remove("hideIt");})
+      here.setState({workingVenue: location}, function(){document.getElementById("detailWindow").classList.remove("hideIt");})
        }  
 
     })
 
-    map.addListener('click', function(event) {
+  return marker
+
+        });
+
+  var markerCluster = new window.MarkerClusterer(map, markersJS,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+  
+
+  map.addListener('click', function(event) {
         infowindow.close();
 
     })
-  
-})
 
-console.log("API VenueSSSSSSSSSŠSSSSSSSSSSSSSSSSSSSSSSS")
+  //Print of venues from foursQ API
+
+console.log("API VenueSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 console.log(this.state.venues)
 
-//Print of venues from foursQ API
-          this.state.venues.map(myVenue =>{
+        this.state.venues.map(myVenue =>{
 
           console.log("RENDRUJU Venues (API)")
 
@@ -306,6 +309,8 @@ console.log(this.state.venues)
       infowindow.open(map, marker);
     })
   }) 
+
+
 
 var previousMarker;
 var here = this;
