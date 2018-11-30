@@ -299,15 +299,37 @@ animation: Coffee-Initial 1.0s;
 
 #currentLocation{
   position: absolute;
-  width: 44px;
-  height: 44px;
-  bottom: 20px;
-  right: 20px;
+  top: 270px;
+  right: 30px;
   background-color: white;
   border-radius: 22px;
   box-shadow: 3px 3px 5px grey;
+  text-align: center;
 }
 
-#currentLocation img{
-  margin-top: 2px;
+#currentLocation span{
+    display: inline-block;
+    margin: 10px;
+    top: 0px;
 }
+
+#add-point{
+  position: absolute;
+  top: 320px;
+  right: 30px;
+  background-color: rgba(17, 179, 14, 0.5);
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px grey;
+  text-align: center;
+}
+
+#add-point span{
+    display: inline-block;
+    margin: 10px;
+    top: 0px;
+}
+
+.solid{
+  background-color: rgba(17, 179, 14, 1) !important;
+}
+

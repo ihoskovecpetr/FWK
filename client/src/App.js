@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Button, Nav, Navbar, NavItem, Image, Alert, Jumbotron, FormGroup, form, ControlLabel, FormControl, FieldGroup } from 'react-bootstrap'
+import {Grid, Row, Col, Button, Nav, Navbar, NavItem, Image, Alert, Jumbotron, FormGroup, form, ControlLabel, FormControl, FieldGroup, Glyphicon } from 'react-bootstrap'
 import axios from 'axios';
 import GeolocationMarker from 'geolocation-marker';
 import _ from 'lodash';
@@ -30,7 +30,7 @@ export default class App extends Component {
       adminOpen: '',
       adminKey: 1,
       navExpand: false,
-
+      addAvailable: false,
       }
   }
 
@@ -75,6 +75,7 @@ showAway(value, bool){
     document.getElementById("inform").classList.remove("hideIt");
     document.getElementById("NavBar").classList.remove("hideIt");
     document.getElementById("currentLocation").classList.remove("hideIt");
+    document.getElementById("add-point").classList.remove("hideIt");
     
   }
 
@@ -190,7 +191,7 @@ if (this.state.adminOpen == true && this.state.adminKey == 1) {
         bounds.extend( new window.google.maps.LatLng(one.lat,one.lng) );
     })
 
-  map.fitBounds(bounds, {top:100, bottom:200,right:100, left:100})
+  map.fitBounds(bounds, {top:100,bottom:200,right:100,left:100})
 } 
 
 if (this.state.adminOpen == true && this.state.adminKey == 2) {
@@ -203,14 +204,8 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
 }
 
 
-
-
-
   var infowindow = new window.google.maps.InfoWindow()
 
-
-
-// Clustering
 
 
   var markersJS = this.state.displVenues.map((location, i) => {
@@ -274,9 +269,10 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
 
     })
 
-  return marker
+  return marker  //important to make array from markersJS
 
         });
+// Clustering
 
   var markerCluster = new window.MarkerClusterer(map, markersJS,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
@@ -318,7 +314,6 @@ var here = this;
 
   map.addListener('click', function(event) { 
 
-
     if (here.state.adminOpen) {
      // document.getElementById("adminWindow").classList.add("hideIt"); // close the admin window on click on map
       //here.setState({adminOpen: false})
@@ -339,10 +334,11 @@ var here = this;
                 previousMarker = undefined;
                 document.getElementById("newInput").classList.add("hideIt");
           } else{
-      
-      document.getElementById("newInput").classList.remove("hideIt");
-      
-      here.setState({ClickedPosition: [event.latLng.lat(), event.latLng.lng()]})
+
+            if (here.state.addAvailable) {
+          
+          document.getElementById("newInput").classList.remove("hideIt");
+          here.setState({ClickedPosition: [event.latLng.lat(), event.latLng.lng()]})
 
           previousMarker = new window.google.maps.Marker({
           position: event.latLng,
@@ -350,6 +346,7 @@ var here = this;
           label: '+',
           title: "myVenue.name",
         })
+            }
           }
         }         
       }      
@@ -615,6 +612,21 @@ changeCenter(){
   this.renderAwaySorted()
 }
 
+enableAddPoint(){
+  if (!this.state.addAvailable) {
+    document.getElementById("add-point").classList.add("solid")
+      this.setState({addAvailable: !this.state.addAvailable}, () =>{
+        document.getElementById("newInput").classList.remove("hideIt")
+      } )
+  } else{
+          document.getElementById("add-point").classList.remove("solid")
+    this.setState({addAvailable: !this.state.addAvailable}, () =>{
+        document.getElementById("newInput").classList.add("hideIt")
+      } )
+  }
+  
+}
+
 passKeyFromAdmin(key){
   this.setState({adminKey: key}, () => {this.showAdmin()})
 }
@@ -725,9 +737,17 @@ console.log("rendering whole document again")
         <div id="img-div" onClick={this.showAway.bind(this, 2)} ><p>2 $</p><Image src="https://img.icons8.com/material-rounded/48/000000/marker.png" /></div>
       </div>
 
+
+
       <div id="currentLocation" className="hideIt" onClick={this.changeCenter.bind(this)}>
-         <Image src="https://img.icons8.com/windows/32/000000/location-off.png" />
+         <Glyphicon glyph="glyphicon glyphicon-screenshot" />
       </div>
+
+      <div id="add-point" className="hideIt" onClick={this.enableAddPoint.bind(this)}>
+         <Glyphicon glyph="glyphicon glyphicon-plus" />
+      </div>
+
+
 
 <div className="hideIt">
       <Button bsStyle="danger" id="saveBtn" onClick={this.handleAdd.bind(this)} > Save </Button>
