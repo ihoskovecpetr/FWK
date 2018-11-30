@@ -3,11 +3,13 @@ import {Grid, Row, Col, Button, Nav, Navbar, NavItem, Image, Alert, Jumbotron, F
 import axios from 'axios';
 import GeolocationMarker from 'geolocation-marker';
 import _ from 'lodash';
+import ReactDOM from 'react-dom';
 
 import './App.css';
 import Detail from './Components/detail';
 import Admin from './Components/admin';
 import NewVenue from './Components/new-input-window';
+import InfoWindow from './Components/infowindow';
 
 
 
@@ -20,12 +22,13 @@ export default class App extends Component {
       displVenues: [],
       workingLocation: [],
       ClickedPosition: [],
-      workingZoom: '',
+      workingZoom: '',  // Not using right now (problem with re-rendering)
       workingVenue: '', // Venue on which is clicked right now, othervise empty
       workingPrice: '', // Price choosen for rendering
-      unConfirmedArray: [],
-      toBeDeletedArray: [],
+      unConfirmedArray: [], // Array of locations which are waiting to be admitted
+      toBeDeletedArray: [], // Array of locations which are waiting to be deleted
       adminOpen: '',
+      adminKey: 1,
       navExpand: false,
 
       }
@@ -55,7 +58,7 @@ export default class App extends Component {
 showAway(value, bool){
 
     if (value) {
-     this.setState({workingPrice: value})  // to keep reference of working Price for re-rendering map
+     this.setState({workingPrice: value, adminOpen: false})  // to keep reference of working Price for re-rendering map close adminOpen reference
     }
    
     if (value == undefined) {
@@ -172,7 +175,33 @@ if (this.state.workingLocation == '' ) {
     disableDefaultUI: true,
     mapTypeId: window.google.maps.MapTypeId.ROADMAP,
     clickableIcons: false,
+    gestureHandling: "cooperative", 
   });
+
+
+var GeoMarker = new window.GeolocationMarker(map);
+
+var bounds = new window.google.maps.LatLngBounds()
+
+if (this.state.adminOpen == true && this.state.adminKey == 1) {
+
+    console.log("Unconfirmed Arr")
+    _.map(this.state.unConfirmedArray, (one, index) => {
+        bounds.extend( new window.google.maps.LatLng(one.lat,one.lng) );
+    })
+
+  map.fitBounds(bounds, {top:100, bottom:200,right:100, left:100})
+} 
+
+if (this.state.adminOpen == true && this.state.adminKey == 2) {
+
+      console.log("toBeDeleted Arr")
+      _.map(this.state.toBeDeletedArray, (one, index) => {
+          bounds.extend( new window.google.maps.LatLng(one.lat,one.lng) );
+    })
+  map.fitBounds(bounds, {top:100, bottom:200,right:100, left:100})
+}
+
 
 
 
@@ -187,7 +216,7 @@ if (this.state.workingLocation == '' ) {
                             </div>Name: <b>${myVenue.name}</b> 
                             </br>Price of coffee: <b>${myVenue.price} $</b>
                             </br>To be Deleted: <b>${myVenue.toBeDeleted}</b> 
-                             </div>` + '<button onclick="myFunction()">Click me</button>'
+                             </div>` + '<div id="infoWindow" />'
 
 // </br>Distance: <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194"> Seznam </a>    
 
@@ -220,28 +249,32 @@ if (this.state.workingLocation == '' ) {
     })
 
   //print only Markers with status confirmed
-      if (myVenue.confirmed == false) {
-        var infowindowAdmin = new window.google.maps.InfoWindow()
 
-          infowindowAdmin.setContent(contentString)
-          infowindowAdmin.open(map, marker);
-      } else{
+
+
+
 
    // Listener on the Location marker
     var here = this
     marker.addListener('click', function() {
 
-       if (previousMarker) {
+      console.log("Marker posloucha na tenhle addListener")
 
+      if (previousMarker) {
         document.getElementById("newInput").classList.add("hideIt");  //unmounting table of adding new Marker
         previousMarker.setMap(null);      // unmounting Marker of adding new Marker
         previousMarker = undefined;       // unmounting Marker of adding new Marker
        } else{
 
       infowindow.setContent(contentString)
+
+      infowindow.addListener('domready', e => {
+      ReactDOM.render(<InfoWindow />, document.getElementById('infoWindow'))
+    })
       infowindow.open(map, marker);
+
       here.setState({workingVenue: myVenue}, function(){document.getElementById("detailWindow").classList.remove("hideIt");})
-       }
+       }  
 
     })
 
@@ -249,8 +282,10 @@ if (this.state.workingLocation == '' ) {
         infowindow.close();
 
     })
-  }
+  
 })
+
+  /* // API ----- API
 console.log("API VenueSSSSSSSSSŠSSSSSSSSSSSSSSSSSSSSSSS")
 console.log(this.state.venues)
 
@@ -271,11 +306,7 @@ console.log(this.state.venues)
       infowindow.setContent(contentString)
       infowindow.open(map, marker);
     })
-  })
-
-console.log("Pred Geolok MRKR")
-var GeoMarker = new window.GeolocationMarker(map);
-console.log("Za Geolok MRKR")
+  })  */
 
 var previousMarker;
 var here = this;
@@ -285,8 +316,8 @@ var here = this;
 
 
     if (here.state.adminOpen) {
-      document.getElementById("adminWindow").classList.add("hideIt"); // close the admin window on click on map
-      here.setState({adminOpen: false})
+     // document.getElementById("adminWindow").classList.add("hideIt"); // close the admin window on click on map
+      //here.setState({adminOpen: false})
     } else {
 
       if (here.state.navExpand) { //close the expanded NavBar on click on map
@@ -552,9 +583,15 @@ showAdmin(){
         this.setState({navExpand: false})
          this.setState({adminOpen: true})
         //onShowADMIN CHANGES sorted Venues to be displayed and set to render them then
-        this.setState({displVenues: this.state.unConfirmedArray }, function(){
+        if (this.state.adminKey == 1) {
+          this.setState({displVenues: this.state.unConfirmedArray }, function(){
           this.renderAwaySorted()  
         })
+        } else{
+          this.setState({displVenues: this.state.toBeDeletedArray }, function(){
+          this.renderAwaySorted()  
+        })
+        }
 }
 
 setNavExpanded(){
@@ -571,6 +608,11 @@ changeCenter(){
   console.log("change location on me")
   this.renderAwaySorted()
 }
+
+passKeyFromAdmin(key){
+  this.setState({adminKey: key}, () => {this.showAdmin()})
+}
+
 
 
   render() {
@@ -657,9 +699,18 @@ console.log("rendering whole document again")
 
 <header className="Headless-header">
       <div id="map"></div>
-     <Detail venue={this.state.workingVenue} fceDelete={this.Delete.bind(this)} markItDelete={this.markItDelete.bind(this)} />
-     <Admin unconfirmed={this.state.unConfirmedArray} toBeDeleted={this.state.toBeDeletedArray} update={this.Update.bind(this)} delete={this.Delete.bind(this)} />
-      <NewVenue onSubmit={this.onSubmit.bind(this)} onClose={this.onClose.bind(this)} />
+     <Detail  venue={this.state.workingVenue} 
+              fceDelete={this.Delete.bind(this)} 
+              markItDelete={this.markItDelete.bind(this)} />
+
+     <Admin unconfirmed={this.state.unConfirmedArray} 
+            toBeDeleted={this.state.toBeDeletedArray} 
+            update={this.Update.bind(this)} 
+            delete={this.Delete.bind(this)} 
+            passKeyFromAdmin={this.passKeyFromAdmin.bind(this)} />
+
+      <NewVenue onSubmit={this.onSubmit.bind(this)} 
+                onClose={this.onClose.bind(this)} />
     
       <div id="inform" className="hideIt" >
         <div id="img-div" onClick={this.showAway.bind(this, 0.8)} ><p>0.8 $</p><Image src="https://img.icons8.com/material-outlined/48/000000/marker.png" /></div>

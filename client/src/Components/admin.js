@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import {Grid, Row, Col, Button} from 'react-bootstrap'
+import {Grid, Row, Col, Button, Tabs, Tab, Glyphicon} from 'react-bootstrap'
 import _ from 'lodash';
 import './admin.css'
 
 
 export default class Admin extends Component {
-    constructor(props) {
-    super(props);
-        this.state = {
-            unConfirmedArray: [],
-      }
+
+  constructor(props, context) {
+    super(props, context);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.state = {
+      unConfirmedArray: [],
+    };
   }
 
-  componentDidMount(){
+  handleSelect(key) {
+    this.props.passKeyFromAdmin(key)
+  }
 
-}
+  handleUpdate(id){
+    this.props.update(id)
+  }
 
-handleUpdate(id){
-  this.props.update(id)
-}
-
-handleDelete(id){
-  this.props.delete(id)
-}
+  handleDelete(id){
+    this.props.delete(id)
+  }
 
 printRows(){
   return( _.map(this.props.unconfirmed, (one, index) => <Row className="newRow">
@@ -30,12 +32,12 @@ printRows(){
                       <p>{one.name}</p>
                   </Col>
                   <Col xs={4} md={4} >
-                      <p>{one.price}</p>
+                      <p>{one.price} $</p>
                   </Col>
                   <Col xs={4} md={4} >
-                      <Button bsStyle="info" >Show</Button>
-                      <Button bsStyle="success" onClick={this.handleUpdate.bind(this, one._id)} >Submit</Button>
-                      <Button bsStyle="danger" >Decline</Button>
+                      <Button bsStyle="info" ><Glyphicon glyph="glyphicon glyphicon-search" /></Button>
+                      <Button bsStyle="success" onClick={this.handleUpdate.bind(this, one._id)} ><Glyphicon glyph="glyphicon glyphicon-ok" /></Button>
+                      <Button bsStyle="danger" ><Glyphicon glyph="glyphicon glyphicon-trash" /></Button>
                   </Col>
             </Row>))
 }
@@ -46,12 +48,12 @@ printRowsDeleted(){
                       <p>{one.name}</p>
                   </Col>
                   <Col xs={4} md={4} >
-                      <p>{one.price}</p>
+                      <p>{one.price} $</p>
                   </Col>
                   <Col xs={4} md={4} >
-                      <Button bsStyle="info" >Show</Button>
-                      <Button bsStyle="success" onClick={this.handleDelete.bind(this, one._id)} >Submit</Button>
-                      <Button bsStyle="danger" >Decline</Button>
+                      <Button bsStyle="info" ><Glyphicon glyph="glyphicon glyphicon-search" /> Show</Button>
+                      <Button bsStyle="success" onClick={this.handleDelete.bind(this, one._id)} ><Glyphicon glyph="glyphicon glyphicon-ok" /> Submit</Button>
+                      <Button bsStyle="danger" ><Glyphicon glyph="glyphicon glyphicon-trash" /> Decline</Button>
                   </Col>
             </Row>))
 }
@@ -59,49 +61,55 @@ printRowsDeleted(){
   render() {
     return (
       <div id='adminWindow' className='hideIt' >
-     
-        <Grid id="gridAdmin">
-          <Row>
-            <Col xs={6} md={6} className="column">
-              <Row>
-                <Col xs={12} md={12} >
-                    <h1>Suggested to Add</h1>
-                </Col>
-              </Row>
-              <Row >
+
+            <Tabs
+        activeKey={this.state.key}
+        onSelect={this.handleSelect}
+        id="controlled-tab-example"
+      >
+        <Tab eventKey={1} title="__New locations__">
+            <Grid id="gridAdmin">
+            <Row>
+              <Col xs={12} md={12} className="column" >
+                  <Row className="row-one" >
+                        <Col xs={4} md={4} > 
+                            <p>Name</p>
+                        </Col>
+                        <Col xs={4} md={4} >
+                            <p>Price</p>
+                        </Col>
+                        <Col xs={4} md={4} >
+                            <p>Action</p>
+                        </Col>
+                    </Row>
+                   {this.printRows()}
+                 </Col>
+               </Row>
+            </Grid>
+      </Tab>
+      <Tab eventKey={2} title="__To be Deleted__">
+          <Grid id="gridAdmin">
+            <Row>
+              <Col xs={12} md={12} className="column" >
+            <Row className="row-oneB">
                     <Col xs={4} md={4} > 
                         <p>Name</p>
                     </Col>
                     <Col xs={4} md={4} >
-                        <p>price</p>
+                        <p>Price</p>
                     </Col>
                     <Col xs={4} md={4} >
-                        <p>action's</p>
+                        <p>Action</p>
                     </Col>
-                </Row>
-               {this.printRows()}
-            </Col>
-            <Col xs={6} md={6} className="column" >
-            <Row>
-          <Col xs={12} md={12} >
-              <h1>To be Deleted</h1>
-          </Col>
-          </Row>
-          <Row>
-                  <Col xs={4} md={4} > 
-                      <p>Name</p>
-                  </Col>
-                  <Col xs={4} md={4} >
-                      <p>price</p>
-                  </Col>
-                  <Col xs={4} md={4} >
-                      <p>action's</p>
-                  </Col>
-            </Row>
-           {this.printRowsDeleted()}
+              </Row>
+             {this.printRowsDeleted()}
            </Col>
          </Row>
         </Grid>
+        </Tab>
+      </Tabs>
+     
+       
        </div>
     );
   }
