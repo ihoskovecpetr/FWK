@@ -214,11 +214,9 @@ if (this.state.adminOpen == true && this.state.adminKey == 2) {
                             <div id="cup-coffee">
                               <img src="https://img.icons8.com/color/26/000000/coffee-to-go.png" height="100%"/>
                             </div>Name: <b>${location.name}</b> 
-                            <a href="https://www.google.com/maps/dir/?api=1&destination=-30,150">Future -- == ++ XX</a>
                             </br>Price of coffee: <b>${location.price} $</b>
-                            </br>lat <b>${location.lat} $</b>
                             </br>To be Deleted: <b>${location.toBeDeleted}</b> 
-                             </div>` + '<div id="infoWindow" /><a href="http://maps.google.com/maps?saddr=New+York&daddr=San+Francisco">Route New York --> San Francisco</a>'
+                             </div>` + '<div id="infoWindow" />'
 
           switch(location.price) {
               case 0.8:

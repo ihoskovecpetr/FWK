@@ -19,7 +19,6 @@ window.open(url, '_blank');
   render() {
   return (
     <div className="black">
-        <p > Ahoj </p>
          <Button bsStyle="success" onClick={this.handleOnSubmit.bind(this, this.props.lat, this.props.lng)} >Navigate me there!</Button>
     </div>
   );
