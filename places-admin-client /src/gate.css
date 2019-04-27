@@ -1,0 +1,105 @@
+
+@media (max-width: 992px){
+
+  .jumbo-cup{
+    margin-top: 0 !important;
+  }
+
+  .fwk{
+  margin-top: 7% !important;
+}
+
+#white-space{
+  display: none;
+}
+
+}
+
+
+
+#jumbo{
+  position: fixed;
+  height: 100vh;
+  background-color: rgba(0, 100, 255, 0.4);
+  position: relative;
+  z-index: 5;
+  padding-top: 0;
+}
+
+.jumbotron{
+  margin-bottom: 0;
+}
+
+#col{
+    text-align: center;
+}
+
+#jumbo-cup2{
+animation-delay: 0.5s
+}
+#jumbo-cup3{
+animation-delay: 1s
+}
+
+#jumbo-fwk{
+animation-delay: 1.5s;
+margin-top: 5%;
+width: 100%;
+}
+
+
+.jumbo-cup{
+  display: inline-block;
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  margin-top: 40%;
+}
+
+.fwk{
+  display: flex !important;
+  float: left;
+}
+
+.fwk p{
+  width: 30%;
+  font-size: 50px;
+  margin: 0 auto;
+}
+
+
+
+.jumbo-cup p{
+  padding-top: 20px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+#cup-image{
+display: inline-block;
+margin: 10px;
+margin-top: 0;
+}
+
+.jumbo-cup:hover {
+  background-color: white;
+  color: black; 
+}
+
+
+.jumbo-cup:hover p {
+  color: black;
+}
+
+.jumbo-cup:hover #cup-image{
+animation: Coffee-Initial 1.0s;
+}
+
+@keyframes  Coffee-Initial{
+
+    50% {
+        transform: translate(0,5px) ;   
+    }
+
+}

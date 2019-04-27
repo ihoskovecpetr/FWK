@@ -10,14 +10,19 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "fs": "0.0.1-security",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "mongodb": "^3.1.4",
     "mongoose": "^5.2.13",
     "morgan": "~1.9.0",
+    "multer": "^1.4.1",
     "nodemailer": "^4.6.8",
+    "nodemon": "^1.18.9",
+    "request": "^2.88.0",
+    "serve-index": "^1.9.1",
     "underscore": "^1.9.1",
-    "validator": "^10.7.1",
+    "validator": "^10.9.0",
     "xoauth2": "^1.2.0"
   }
 }
