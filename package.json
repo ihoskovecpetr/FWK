@@ -21,7 +21,7 @@
     "nodemon": "^1.18.9",
     "request": "^2.88.0",
     "serve-index": "^1.9.1",
-    "underscore": "^1.9.1",
+    "underscore": "^1.12.1",
     "validator": "^10.9.0",
     "xoauth2": "^1.2.0"
   }
